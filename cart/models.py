@@ -17,10 +17,13 @@ class Cart(models.Model):
 
         return total_price
 
-
     @property
     def total_items(self):
-        return self.item_set.all().count()
+        total_items = 0
+        for item in self.item_set.all():
+            total_items += item.quantity
+
+        return total_items
 
     class Meta:
         verbose_name = _('cart')
