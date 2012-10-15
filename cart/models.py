@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
@@ -6,6 +8,19 @@ from django.contrib.contenttypes import generic
 class Cart(models.Model):
     creation_date = models.DateTimeField(verbose_name=_('creation date'))
     checked_out = models.BooleanField(default=False, verbose_name=_('checked out'))
+
+    @property
+    def total_price(self):
+        total_price = Decimal("0.00")
+        for item in self.item_set.all():
+            total_price += item.total_price
+
+        return total_price
+
+
+    @property
+    def total_items(self):
+        return self.item_set.all().count()
 
     class Meta:
         verbose_name = _('cart')
