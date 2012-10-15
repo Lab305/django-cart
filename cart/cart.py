@@ -37,6 +37,7 @@ class Cart:
                 cart=self.cart,
                 product=product,
             )
+            raise ItemAlreadyExists
         except models.Item.DoesNotExist:
             item = models.Item()
             item.cart = self.cart
