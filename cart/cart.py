@@ -44,10 +44,6 @@ class Cart:
             item.unit_price = unit_price
             item.quantity = quantity
             item.save()
-        else: #ItemAlreadyExists
-            item.unit_price = unit_price
-            item.quantity = item.quantity + int(quantity)
-            item.save()
 
     def remove(self, product):
         try:
@@ -66,8 +62,11 @@ class Cart:
                 cart=self.cart,
                 product=product,
             )
+            print "quantity is now: %s" % quantity
             item.quantity = quantity
+            print "saving"
             item.save()
+            print "saved"
         except models.Item.DoesNotExist:
             raise ItemDoesNotExist
             
